@@ -21,6 +21,13 @@ namespace ShoppingApplication.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("api/CreateCategory")]
+        public IActionResult CreateNewCategory(category category)
+        {
+            _category.AddNewCategory(category);
+            return Created("/" + category.Id, category);
+        }
     
     }
 }

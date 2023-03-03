@@ -11,6 +11,14 @@ namespace ShoppingApplication.ServiceLayer
         {
             _Dbcontext = dbcontext;
         }
+
+        public category AddNewCategory(category category)
+        {   
+            _Dbcontext.category.Add(category);
+            _Dbcontext.SaveChanges();
+            return category;
+        }
+
         public List<category> GetCategories()
         {
             return _Dbcontext.category.ToList();
