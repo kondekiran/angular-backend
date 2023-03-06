@@ -13,6 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddScoped<IStore, StoreService>();
 builder.Services.AddScoped<ICategory,CategoryServices>();
 builder.Services.AddScoped<ICat_store, Cat_StoreServices>();
+builder.Services.AddScoped<IProduct, ProductServices>();
+builder.Services.AddScoped<ICatProduct, CatProductServices>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
