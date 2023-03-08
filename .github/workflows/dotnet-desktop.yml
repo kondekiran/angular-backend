@@ -17,3 +17,10 @@ jobs:
       run: dotnet restore
     - name: Build Application    # build the .NET application
       run: dotnet build --configuration Release --no-restore
+    - name: Publish Artifact   # publish the artifact
+      run: dotnet publish --configuration Release --output ./publish
+    - name: Download Artifact   # download the artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: published-files
+        path: ./published-files
