@@ -2,32 +2,47 @@ name: Build and Deploy .NET Application
 
 on:
   push:
-    branches: [backend]    # run only when changes are pushed to the backend branch
+    branches:
+      - backend
 
 jobs:
-  build:
-    runs-on: ubuntu-latest    # use the latest version of Ubuntu
+  build-and-deploy:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2    # checkout the code from the repository
-      - name: Setup .NET    # install .NET on the machine
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.x'    # specify the version of .NET to be installed
-      - name: Restore Dependencies    # restore the NuGet packages
-        run: dotnet restore
-      - name: Build Application    # build the .NET application
-        run: dotnet build --configuration Release --no-restore
-      - name: Publish Artifact   # publish the artifact
-        run: dotnet publish --configuration Release --output ./publish
-        working-directory: ./myapp
+          dotnet-version: '6.0.x'
+
+      - name: Build and Test
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
         env:
           DOTNET_ROOT: /home/runner/.dotnet
+        run: dotnet test
+
+      - name: Publish
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+        env:
+          DOTNET_ROOT: /home/runner/.dotnet
+        run: dotnet publish --configuration Release --output ./publish
         if: success()
-      - name: Download Artifact   # download the artifact
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: published-files
+          path: ./publish
+        if: success()
+
+      - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
           name: published-files
           path: ./published-files
-        env:
-          DOTNET_ROOT: /home/runner/.dotnet
         if: success()
