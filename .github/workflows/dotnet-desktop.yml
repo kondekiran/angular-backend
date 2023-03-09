@@ -34,7 +34,7 @@ jobs:
         if: success()
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2 
         with:
           name: published-files
           path: ./publish
