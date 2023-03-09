@@ -41,6 +41,6 @@ jobs:
       uses: actions/download-artifact@v2
       with:
           name: published-files
-          path: ./published-files
+          path: ./published
       if: success()
    
